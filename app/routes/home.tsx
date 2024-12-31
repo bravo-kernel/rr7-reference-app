@@ -18,7 +18,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   console.log("Entered action")
 
   const { errors, data, receivedValues: defaultValues } =
-    await getValidatedFormData<FormData>(request, resolver);
+    await getValidatedFormData<FormData>(request.clone(), resolver);
   if (errors) {
     // The keys "errors" and "defaultValues" are picked up automatically by useRemixForm
     return { errors, defaultValues };

@@ -40,30 +40,35 @@ export default function Home() {
     resolver,
   });
 
-  return(
+  return (
     <>
       <Welcome />
 
-      <Form onSubmit={handleSubmit} method="POST">
-        <div>
-          <label>
-            Name 1:
-            <input className="border border-neutral-500" type="text" {...register("name1")} />
-            {errors.name1 && <p>{errors.name1.message}</p>}
-          </label>
-        </div>
-      
+      <div className="flex flex-col items-center justify-center">
+        <div>remix-hook-form</div>
 
-        <div>
+        <Form onSubmit={handleSubmit} method="POST">
+          <div>
+            <label>
+              Name 1
+              <input className="ml-2 mb-3 border border-neutral-500" type="text" {...register("name1")} />
+              {errors.name1 && <p>{errors.name1.message}</p>}
+            </label>
+          </div>
+
+
+          <div>
           <label>
-            Name 2:
-            <input className="border border-neutral-500" type="text" {...register("name2")} />
-            {errors.name2 && <p>{errors.name2.message}</p>}
-          </label>
+              Name 2
+              <input className="ml-2 border border-neutral-500" type="text" {...register("name2")} />
+              {errors.name2 && <p>{errors.name2.message}</p>}
+            </label>
+          </div>
+
+          <button className="bg-zinc-200 float-end" type="submit">Submit</button>
+        </Form>
         </div>
-        
-        <button type="submit">Submit</button>
-    </Form>
-  </>
-  ) 
+
+    </>
+  )
 }

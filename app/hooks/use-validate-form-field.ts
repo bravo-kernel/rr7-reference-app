@@ -3,24 +3,33 @@ import type { UseRemixFormReturn } from "remix-hook-form";
 import { useFormState } from "react-hook-form";
 
 export const useValidateFormField = (form: UseRemixFormReturn) => {
-    const { control, getValues, resetField, setValue, trigger } = form; // this line should not break the app
-    const { dirtyFields } = useFormState({ control })
+    const { control, resetField, setValue, trigger } = form; // this line should not break the app
+    const { defaultValues, touchedFields, dirtyFields } = useFormState({ control })
 
-    console.log("Default values:", getValues())
+    console.log("Default values:", defaultValues)
+    console.log("Touched fields:", touchedFields)
     console.log("Dirty fields:", dirtyFields)
 
-    const testFormHook = (
+    const validateFormField = (
         field: string,
         event: React.ChangeEvent<HTMLInputElement>,
     ) => {
-        // if passed value is 123, reset field to start clean
-        if (event.target.value === "123") {
+        if (!defaultValues) {
+            return
+        }
+
+        // current value is identical to default value
+        if (event.target.value === defaultValues[field]) {
+            console.log("IDENTICAL VALUES => resetting field1")
+
             resetField(field, { defaultValue: undefined });
-            console.log("Resettted the field")
+
             return;
         }
 
-        // if values are different, set value and touch the field
+        // current value is different than default value
+        console.log("DIFFERENT VALUES => set value, touch and dirty")
+
         setValue(field, event.target.value, {
             shouldTouch: true,
             shouldDirty: true,
@@ -29,5 +38,5 @@ export const useValidateFormField = (form: UseRemixFormReturn) => {
         trigger(field);
     };
 
-    return { testFormHook };
+    return { validateFormField };
 }
